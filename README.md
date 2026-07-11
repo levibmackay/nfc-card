@@ -2,27 +2,32 @@
 
 A single-screen, Apple-inspired landing page built for an NFC business card. Someone taps the card, lands here, and can immediately download your resume, save your contact card, email you, or jump to your other links (GitHub, LinkedIn, portfolio, Instagram, X).
 
-Built with React 19, TypeScript, Vite, Tailwind CSS v4, and Framer Motion. Deploys to GitHub Pages automatically via GitHub Actions on every push to `main`.
+Built with React 19, TypeScript, Vite, and Tailwind CSS v4. Deploys to GitHub Pages automatically via GitHub Actions on every push to `main`.
 
 This is a **separate, standalone repo** from [`levibmackay/Portfolio`](https://github.com/levibmackay/Portfolio) (your full portfolio site). This one exists purely so an NFC tap has a fast, minimal landing spot — the "Portfolio" link in the socials row points back to your real site.
+
+**Prerendered, not just client-rendered.** The build renders the page to static HTML at build time (`scripts/prerender.mjs` + `src/entry-server.tsx`) and injects it into `dist/index.html`, then the client hydrates on top of it (`hydrateRoot` in `src/main.tsx`). This means a phone paints the real name/tagline/buttons the instant the HTML arrives, instead of showing a blank screen until the JS bundle downloads and executes. One consequence: don't reach for browser-only APIs (`window`, `document`, `localStorage`, etc.) directly in a component's render body — only inside `useEffect`/event handlers — or the server render will throw.
 
 ## 1. Folder structure
 
 ```
 nfc-card/
 ├── .github/workflows/deploy.yml   # CI: build + deploy to GitHub Pages on push to main
+├── scripts/
+│   └── prerender.mjs              # Build-time SSR pass, injects static HTML into dist/index.html
 ├── public/                        # Static files copied as-is to the site root
 │   ├── favicon.svg                # Browser tab icon (gradient "LM" monogram)
 │   ├── apple-touch-icon.png       # iOS "Add to Home Screen" icon
 │   ├── og-image.png               # Social share preview image (1200×630)
 │   ├── resume.pdf                 # ⚠️ Placeholder — replace with your real resume
-│   ├── headshot.jpg               # ⚠️ Not included — add your photo here (see below)
+│   ├── headshot.jpg               # Your photo — swap this file to change it
 │   ├── robots.txt
 │   ├── sitemap.xml
 │   └── .nojekyll                  # Tells GitHub Pages not to run Jekyll on the build
 ├── index.html                     # Document shell + SEO/OpenGraph meta tags
 ├── src/
-│   ├── main.tsx                   # Entry point, loads global CSS + Inter font
+│   ├── main.tsx                   # Client entry point, hydrates the prerendered HTML
+│   ├── entry-server.tsx           # Build-time SSR entry, used only by scripts/prerender.mjs
 │   ├── App.tsx                    # Composes the page: gradient bg + Hero + Footer
 │   ├── index.css                  # Design tokens, dark theme, glassmorphism, animations
 │   ├── config/
@@ -31,9 +36,8 @@ nfc-card/
 │   │   ├── sections/
 │   │   │   ├── Hero.tsx           # Name, taglines, action buttons, socials
 │   │   │   └── Footer.tsx
-│   │   └── ui/                    # Reusable primitives (Button, GlassCard-style
-│   │                                classes, SocialLinks, BrandIcons, Avatar,
-│   │                                CopyButton, FloatingGradient, RevealOnScroll)
+│   │   └── ui/                    # Reusable primitives (Button, SocialLinks,
+│   │                                BrandIcons, Avatar, CopyButton, FloatingGradient)
 │   ├── lib/
 │   │   ├── vcard.ts               # Builds and downloads the .vcf contact card
 │   │   └── utils.ts                # `cn()` class-merging helper
