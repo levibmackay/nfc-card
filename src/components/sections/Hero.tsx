@@ -9,11 +9,11 @@ import { siteConfig } from "@/config/site";
 import { downloadVCard } from "@/lib/vcard";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   visible: (delay = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const },
   }),
 };
 
@@ -68,21 +68,21 @@ export function Hero() {
       <motion.h1
         initial="hidden"
         animate="visible"
-        custom={0.15}
+        custom={0.05}
         variants={fadeUp}
         className="mt-8 text-4xl font-semibold tracking-tight text-gradient sm:text-6xl"
       >
         {siteConfig.name}
       </motion.h1>
 
-      <motion.div initial="hidden" animate="visible" custom={0.3} variants={fadeUp} className="mt-3">
+      <motion.div initial="hidden" animate="visible" custom={0.1} variants={fadeUp} className="mt-3">
         <RotatingTagline />
       </motion.div>
 
       <motion.div
         initial="hidden"
         animate="visible"
-        custom={0.45}
+        custom={0.15}
         variants={fadeUp}
         className="mt-10 flex flex-wrap items-center justify-center gap-3"
       >
@@ -100,7 +100,7 @@ export function Hero() {
       <motion.div
         initial="hidden"
         animate="visible"
-        custom={0.6}
+        custom={0.2}
         variants={fadeUp}
         className="mt-8 flex items-center gap-3"
       >
