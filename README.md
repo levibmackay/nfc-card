@@ -1,6 +1,6 @@
 # Levi Mackay — NFC Card Link Hub
 
-A single-screen, Apple-inspired landing page built for an NFC business card. Someone taps the card, lands here, and can immediately download your resume, save your contact card, email you, or jump to your other links (GitHub, LinkedIn, portfolio, Instagram, X).
+A single-screen, Apple-inspired landing page built for an NFC business card. Someone taps the card, lands here, and can immediately download your resume, save your contact card, email you, or jump to your other links (GitHub, LinkedIn, portfolio).
 
 Built with React 19, TypeScript, Vite, and Tailwind CSS v4. Deploys to GitHub Pages automatically via GitHub Actions on every push to `main`.
 
@@ -54,7 +54,7 @@ Almost everything lives in **`src/config/site.ts`**:
 
 - `siteConfig.name`, `taglines`, `email`, `phone`, `location` — shown in the hero and baked into the downloadable `.vcf`.
 - `siteConfig.url` — your production URL. Update this if you attach a custom domain (see §4).
-- `socialLinks` — edit the `href` for GitHub, LinkedIn, Portfolio, Instagram, and X. Removing an entry removes it from the page.
+- `socialLinks` — edit the `href` for GitHub, LinkedIn, and Portfolio. Removing an entry removes it from the page.
 
 **Resume:** replace `public/resume.pdf` with your real resume, keeping the filename `resume.pdf` (or update `siteConfig.resumeUrl` if you rename it).
 
