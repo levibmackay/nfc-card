@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Download, IdCard, Mail } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { SocialLinks } from "@/components/ui/SocialLinks";
+import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { downloadVCard } from "@/lib/vcard";
 
+const CROSSFADE_MS = 300;
+
 function RotatingTagline() {
   const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -20,7 +23,11 @@ function RotatingTagline() {
   useEffect(() => {
     if (reducedMotion) return;
     const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % siteConfig.taglines.length);
+      setVisible(false);
+      window.setTimeout(() => {
+        setIndex((i) => (i + 1) % siteConfig.taglines.length);
+        setVisible(true);
+      }, CROSSFADE_MS);
     }, 2600);
     return () => window.clearInterval(id);
   }, [reducedMotion]);
@@ -32,21 +39,15 @@ function RotatingTagline() {
   }
 
   return (
-    <div className="h-7 sm:h-8">
-      {/* initial={false}: only animate the crossfade on rotation, not the first paint */}
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.p
-          key={siteConfig.taglines[index]}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="text-base text-muted sm:text-lg"
-        >
-          {siteConfig.taglines[index]}
-        </motion.p>
-      </AnimatePresence>
-    </div>
+    <p
+      className={cn(
+        "text-base text-muted transition-opacity ease-out sm:text-lg",
+        visible ? "opacity-100" : "opacity-0",
+      )}
+      style={{ transitionDuration: `${CROSSFADE_MS}ms` }}
+    >
+      {siteConfig.taglines[index]}
+    </p>
   );
 }
 
