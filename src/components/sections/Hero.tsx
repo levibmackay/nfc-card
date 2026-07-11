@@ -8,15 +8,6 @@ import { SocialLinks } from "@/components/ui/SocialLinks";
 import { siteConfig } from "@/config/site";
 import { downloadVCard } from "@/lib/vcard";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 12 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const },
-  }),
-};
-
 function RotatingTagline() {
   const [index, setIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -42,7 +33,8 @@ function RotatingTagline() {
 
   return (
     <div className="h-7 sm:h-8">
-      <AnimatePresence mode="wait">
+      {/* initial={false}: only animate the crossfade on rotation, not the first paint */}
+      <AnimatePresence mode="wait" initial={false}>
         <motion.p
           key={siteConfig.taglines[index]}
           initial={{ opacity: 0, y: 8 }}
@@ -60,32 +52,18 @@ function RotatingTagline() {
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-dvh w-full flex-col items-center justify-center px-6 py-24 text-center">
-      <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
-        <Avatar />
-      </motion.div>
+    <section className="relative flex min-h-screen min-h-dvh w-full flex-col items-center justify-center px-6 py-24 text-center">
+      <Avatar />
 
-      <motion.h1
-        initial="hidden"
-        animate="visible"
-        custom={0.05}
-        variants={fadeUp}
-        className="mt-8 text-4xl font-semibold tracking-tight text-gradient sm:text-6xl"
-      >
+      <h1 className="mt-8 text-4xl font-semibold tracking-tight text-gradient sm:text-6xl">
         {siteConfig.name}
-      </motion.h1>
+      </h1>
 
-      <motion.div initial="hidden" animate="visible" custom={0.1} variants={fadeUp} className="mt-3">
+      <div className="mt-3">
         <RotatingTagline />
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        custom={0.15}
-        variants={fadeUp}
-        className="mt-10 flex flex-wrap items-center justify-center gap-3"
-      >
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
         <Button href={siteConfig.resumeUrl} download variant="glass" icon={<Download className="h-4 w-4" />}>
           Download Resume
         </Button>
@@ -95,18 +73,12 @@ export function Hero() {
         <Button href={`mailto:${siteConfig.email}`} variant="primary" icon={<Mail className="h-4 w-4" />}>
           Email Me
         </Button>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        custom={0.2}
-        variants={fadeUp}
-        className="mt-8 flex items-center gap-3"
-      >
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <SocialLinks />
         <CopyButton value={siteConfig.email} />
-      </motion.div>
+      </div>
     </section>
   );
 }

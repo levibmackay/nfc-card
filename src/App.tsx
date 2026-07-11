@@ -4,7 +4,7 @@ import { Footer } from "@/components/sections/Footer";
 
 function App() {
   return (
-    <div className="relative flex min-h-dvh flex-1 flex-col">
+    <div className="relative flex min-h-screen min-h-dvh flex-1 flex-col">
       <FloatingGradient />
       <main className="flex flex-1 flex-col">
         <Hero />

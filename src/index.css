@@ -25,9 +25,11 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #root {
+  min-height: 100vh; /* fallback for browsers without dvh support */
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
