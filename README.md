@@ -112,3 +112,5 @@ This only applies to the production build (`command === "build"`) — `npm run d
    ```
 4. Update `siteConfig.url` in `src/config/site.ts`, plus the hardcoded absolute URLs in `index.html` (`canonical`, `og:url`, `og:image`, `twitter:image`), `public/robots.txt`, and `public/sitemap.xml` to your new domain.
 5. Commit and push — the next Actions run deploys with the new paths, and GitHub Pages handles HTTPS for your custom domain automatically (may take a few minutes to provision).
+
+_Last updated: 2026-07-16_
