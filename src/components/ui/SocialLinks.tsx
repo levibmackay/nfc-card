@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
 import { Globe } from "lucide-react";
-import { GitHubIcon, InstagramIcon, LinkedInIcon, XLogoIcon } from "@/components/ui/BrandIcons";
+import { GitHubIcon, LinkedInIcon } from "@/components/ui/BrandIcons";
 import { socialLinks } from "@/config/site";
 import { cn } from "@/lib/utils";
 import type { SocialLink } from "@/types";
@@ -9,8 +9,6 @@ const iconMap: Record<SocialLink["icon"], ComponentType<SVGProps<SVGSVGElement>>
   github: GitHubIcon,
   linkedin: LinkedInIcon,
   globe: Globe,
-  instagram: InstagramIcon,
-  x: XLogoIcon,
 };
 
 export function SocialLinks({ className }: { className?: string }) {
