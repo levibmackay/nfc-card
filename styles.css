@@ -1,0 +1,360 @@
+/* ============================================================
+   Levi Mackay — NFC card
+   Static port of the previous React/Tailwind build. Same look:
+   near-black canvas, floating gradient blobs, glass buttons.
+   ============================================================ */
+
+:root {
+  --background: #050505;
+  --foreground: #f5f5f7;
+  --muted: #a1a1aa;
+  --accent: #0a84ff;
+  --accent-secondary: #bf5af2;
+  --border: rgba(255, 255, 255, 0.08);
+  --surface: rgba(255, 255, 255, 0.04);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* The hidden attribute is not honored on SVG elements in all browsers */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Floating gradient background ---------- */
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.blob-1 {
+  top: -10%;
+  left: 50%;
+  width: 36rem;
+  height: 36rem;
+  transform: translateX(-50%);
+  background: rgba(10, 132, 255, 0.25);
+}
+
+.blob-2 {
+  right: -10%;
+  bottom: -15%;
+  width: 30rem;
+  height: 30rem;
+  background: rgba(191, 90, 242, 0.2);
+  animation-duration: 10s;
+  animation-delay: 1.5s;
+}
+
+.blob-3 {
+  left: -25%;
+  bottom: 10%;
+  width: 24rem;
+  height: 24rem;
+  background: rgba(10, 132, 255, 0.1);
+  filter: blur(100px);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -4%, 0) scale(1.05);
+  }
+}
+
+/* blob-1 is centered with translateX; give it its own float so the
+   keyframes don't stomp the centering transform */
+.blob-1 {
+  animation-name: float-centered;
+}
+
+@keyframes float-centered {
+  0%,
+  100% {
+    transform: translateX(-50%) translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) translate3d(2%, -4%, 0) scale(1.05);
+  }
+}
+
+/* ---------- Layout ---------- */
+
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem;
+  text-align: center;
+}
+
+.footer {
+  padding: 0 1.5rem 2.5rem;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ---------- Avatar ---------- */
+
+.avatar {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  flex-shrink: 0;
+}
+
+.avatar-glow {
+  position: absolute;
+  inset: -0.25rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  opacity: 0.7;
+  filter: blur(12px);
+}
+
+/* No backdrop-filter here: with border-radius + overflow hidden it fails
+   to clip on iOS Safari. */
+.avatar-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(5, 5, 5, 0.6);
+}
+
+.avatar-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-initials {
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  background: linear-gradient(120deg, var(--accent) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (min-width: 640px) {
+  .avatar {
+    width: 9rem;
+    height: 9rem;
+  }
+}
+
+/* ---------- Type ---------- */
+
+.name {
+  margin: 2rem 0 0;
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  background: linear-gradient(120deg, #f5f5f7 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.taglines {
+  margin: 0.75rem 0 0;
+  max-width: 40ch;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+@media (min-width: 640px) {
+  .name {
+    font-size: 3.75rem;
+  }
+  .taglines {
+    font-size: 1.125rem;
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+.actions {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--foreground);
+  color: var(--background);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.btn-primary:hover {
+  background: rgba(245, 245, 247, 0.9);
+}
+
+.btn-glass,
+.social {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  color: var(--foreground);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ---------- Social row ---------- */
+
+.links {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: rgba(245, 245, 247, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.social:hover {
+  transform: translateY(-0.25rem);
+  color: var(--foreground);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.icon-lg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+#copy-email .icon-check {
+  color: var(--accent);
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
