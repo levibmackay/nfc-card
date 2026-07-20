@@ -71,4 +71,4 @@ https://levibmackay.github.io/nfc-card/
 3. Update the hardcoded absolute URLs in `index.html` (`canonical`, `og:url`, `og:image`, `twitter:image`), `robots.txt`, and `sitemap.xml` to your new domain. Relative asset paths need no change.
 4. Commit and push — the next Actions run deploys with the new URLs, and GitHub Pages handles HTTPS for your custom domain automatically (may take a few minutes to provision).
 
-_Last updated: 2026-07-19_
+_Last updated: 2026-07-20_
