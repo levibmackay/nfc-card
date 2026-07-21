@@ -72,3 +72,5 @@ https://levibmackay.github.io/nfc-card/
 4. Commit and push — the next Actions run deploys with the new URLs, and GitHub Pages handles HTTPS for your custom domain automatically (may take a few minutes to provision).
 
 _Last updated: 2026-07-20_
+
+_Last reviewed: 2026-07-20 19:33 MDT_
